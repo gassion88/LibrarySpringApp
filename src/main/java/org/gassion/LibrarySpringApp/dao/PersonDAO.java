@@ -30,12 +30,12 @@ public class PersonDAO extends DAO<Person> {
 
     @Override
     public void add(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(name, phone_number, year_of_brith) VALUES (?, ?, ?)", person.getName(), person.getPhone_number(), person.getYear_of_brith());
+        jdbcTemplate.update("INSERT INTO Person(name, phone_number, year_of_brith) VALUES (?, ?, ?)", person.getName(), person.getPhone_number(), person.getYearOfBrith());
     }
 
     @Override
     public void update(int id, Person person) {
-        jdbcTemplate.update("UPDATE Person SET name=?, phone_number=?, year_of_brith=? WHERE id=?", person.getName(), person.getPhone_number(), person.getYear_of_brith(), id);
+        jdbcTemplate.update("UPDATE Person SET name=?, phone_number=?, year_of_brith=? WHERE id=?", person.getName(), person.getPhone_number(), person.getYearOfBrith(), id);
     }
 
     @Override

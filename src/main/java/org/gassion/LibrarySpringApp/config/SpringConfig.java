@@ -28,25 +28,23 @@ public class SpringConfig implements WebMvcConfigurer {
     private static String DB_URL;
     @Value("${db.driver_name}")
     private static String DB_Driver_Name;
-    @Value("${db.name}")
+    @Value("${db.user_name}")
     private static String DB_USER_NAME;
     @Value("${db.password}")
     private static String DB_PASSWORD;
 
     private final ApplicationContext applicationContext;
-    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public SpringConfig(ApplicationContext applicationContext, JdbcTemplate jdbcTemplate) {
+    public SpringConfig(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views/");
+        templateResolver.setPrefix("/WEB-INF/view/");
         templateResolver.setSuffix(".html");
         return templateResolver;
     }
@@ -70,10 +68,10 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName(DB_Driver_Name);
-        dataSource.setUrl(DB_URL);
-        dataSource.setUsername(DB_USER_NAME);
-        dataSource.setPassword(DB_PASSWORD);
+        dataSource.setDriverClassName("org.postgresql.Driver");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/first_db");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("root");
 
         return dataSource;
     }
