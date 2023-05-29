@@ -1,10 +1,12 @@
 package org.gassion.LibrarySpringApp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -18,13 +20,26 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("org.gassion.LibrarySpringApp")
+@PropertySource("classpath:config.properties")
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
+
+    @Value("${db.url}")
+    private static String DB_URL;
+    @Value("${db.driver_name}")
+    private static String DB_Driver_Name;
+    @Value("${db.name}")
+    private static String DB_USER_NAME;
+    @Value("${db.password}")
+    private static String DB_PASSWORD;
+
     private final ApplicationContext applicationContext;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public SpringConfig(ApplicationContext applicationContext) {
+    public SpringConfig(ApplicationContext applicationContext, JdbcTemplate jdbcTemplate) {
         this.applicationContext = applicationContext;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Bean
@@ -55,10 +70,10 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/library_db");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName(DB_Driver_Name);
+        dataSource.setUrl(DB_URL);
+        dataSource.setUsername(DB_USER_NAME);
+        dataSource.setPassword(DB_PASSWORD);
 
         return dataSource;
     }
