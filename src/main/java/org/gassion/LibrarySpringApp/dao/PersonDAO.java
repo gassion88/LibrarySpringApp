@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class PersonDAO extends DAO<Person> {
@@ -19,9 +18,9 @@ public class PersonDAO extends DAO<Person> {
     }
 
     @Override
-    public Optional<Person> getFromID(int id) {
+    public Person getFromID(int id) {
         return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 
     @Override
@@ -31,12 +30,12 @@ public class PersonDAO extends DAO<Person> {
 
     @Override
     public void add(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(name, phone_number, years_of_birth) VALUES (?, ?, ?)", person.getName(), person.getPhone_number(), person.getYearOfBrith());
+        jdbcTemplate.update("INSERT INTO Person(name, phone_number, years_of_birth) VALUES (?, ?, ?)", person.getName(), person.getPhoneNumber(), person.getYearsOfBirth());
     }
 
     @Override
     public void update(int id, Person person) {
-        jdbcTemplate.update("UPDATE Person SET name=?, phone_number=?, year_of_birth=? WHERE id=?", person.getName(), person.getPhone_number(), person.getYearOfBrith(), id);
+        jdbcTemplate.update("UPDATE Person SET name=?, phone_number=?, years_of_birth=? WHERE id=?", person.getName(), person.getPhoneNumber(), person.getYearsOfBirth(), id);
     }
 
     @Override

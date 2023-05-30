@@ -3,14 +3,14 @@ package org.gassion.LibrarySpringApp.model;
 public class Person {
     private int id;
     private String name;
-    private String phone_number;
-    private int yearOfBrith;
+    private String phoneNumber;
+    private int yearsOfBirth;
 
-    public Person(int id, String name, String phone_number, int yearOfBrith) {
+    public Person(int id, String name, String phoneNumber, int yearsOfBirth) {
         this.id = id;
         this.name = name;
-        this.phone_number = phone_number;
-        this.yearOfBrith = yearOfBrith;
+        this.phoneNumber = phoneNumber;
+        this.yearsOfBirth = yearsOfBirth;
     }
 
     public Person() {;
@@ -32,19 +32,19 @@ public class Person {
         this.name = name;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public int getYearOfBrith() {
-        return yearOfBrith;
+    public int getYearsOfBirth() {
+        return yearsOfBirth;
     }
 
-    public void setYearOfBrith(int yearOfBrith) {
-        this.yearOfBrith = yearOfBrith;
+    public void setYearsOfBirth(int yearsOfBirth) {
+        this.yearsOfBirth = yearsOfBirth;
     }
 }

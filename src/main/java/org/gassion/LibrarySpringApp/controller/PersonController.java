@@ -5,12 +5,10 @@ import org.gassion.LibrarySpringApp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("person")
@@ -23,22 +21,40 @@ public class PersonController {
     }
 
     @GetMapping()
-    public String allPerson(Model model){
+    public String getAllPerson(Model model){
         List<Person> personList =  personDAO.getAll();
         model.addAttribute("persons", personList);
         return "person/all_person";
     }
 
     @GetMapping("/new")
-    public String newPerson(Model model) {
+    public String addNewPersonView(Model model) {
         Person person = new Person();
         model.addAttribute("person", person);
         return "person/new";
     }
 
     @PostMapping()
-    public String addPerson(@ModelAttribute("person") Person person) {
+    public String addNewPerson(@ModelAttribute("person") Person person) {
         personDAO.add(person);
+        return "redirect:/person";
+    }
+
+    @GetMapping("/{id}")
+    public String getPersonFromID(@PathVariable("id") int id, Model model) {
+        model.addAttribute("person", personDAO.getFromID(id));
+        return "person/person";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String updatePersonView(@PathVariable("id") int id, Model model) {
+        model.addAttribute("person", personDAO.getFromID(id));
+        return "person/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String updatePerson(@ModelAttribute("person") Person person, @PathVariable int id) {
+        personDAO.update(id, person);
         return "redirect:/person";
     }
 }

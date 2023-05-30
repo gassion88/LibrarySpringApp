@@ -20,9 +20,9 @@ public class BookDAO extends DAO<Book>{
     }
 
     @Override
-    public Optional<Book> getFromID(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE id=?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Book.class)).stream().findAny();
+    public Book getFromID(int id) {
+        return (Book) jdbcTemplate.query("SELECT * FROM Book WHERE id=?", new Object[]{id},
+                new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
     }
 
     @Override
