@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -25,8 +26,8 @@ public class BookDAO extends DAO<Book>{
     }
 
     @Override
-    public Optional<Book> getAll() {
-        return jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class)).stream().findAny();
+    public List<Book> getAll() {
+        return jdbcTemplate.query("SELECT * FROM Book", new BeanPropertyRowMapper<>(Book.class));
     }
 
     @Override
