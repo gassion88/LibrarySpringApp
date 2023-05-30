@@ -6,6 +6,6 @@ import lombok.Data;
 public class Book {
     private int id;
     private String name;
-    private int publication_year;
+    private int publicationDate;
     private String author;
 }
