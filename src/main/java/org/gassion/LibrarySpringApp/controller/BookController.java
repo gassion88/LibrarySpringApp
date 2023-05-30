@@ -2,6 +2,7 @@ package org.gassion.LibrarySpringApp.controller;
 
 import org.gassion.LibrarySpringApp.dao.BookDAO;
 import org.gassion.LibrarySpringApp.model.Book;
+import org.gassion.LibrarySpringApp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,8 +38,9 @@ public class BookController {
 
     @GetMapping("/{id}")
     public String viewBook(@PathVariable("id") int id, Model model) {
-        Book book = bookDAO.getFromID(id);
-        model.addAttribute("book", book);
+        Person person = bookDAO.getPersonBorrowed(id);
+        model.addAttribute("book", bookDAO.getFromID(id));
+        model.addAttribute("person", bookDAO.getPersonBorrowed(id));
         return "book/book";
     }
 

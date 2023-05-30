@@ -9,6 +9,16 @@
 <p th:text="${'Name : ' + book.getName() + ', author : ' + book.getAuthor()}">VALUE</p>
 <p th:text="${'Publication date : ' + book.getPublicationDate()}">VALUE</p>
 
+<td>
+    <span th:if="${person == null}">this book is free now</span>
+    <span th:else>
+        <p>Person</p>
+        <a th:href="@{/person/{id}(id=${person.getId()})}"
+        th:text="${person.getName()}">user</a>
+    </span>
+</td>
+<br/>
+
 <a th:href="@{/book/{id}/edit(id=${book.getId()})}">Edit</a>
 
 <form th:method="DELETE" th:action="@{/book/{id}(id=${book.getId()})}">

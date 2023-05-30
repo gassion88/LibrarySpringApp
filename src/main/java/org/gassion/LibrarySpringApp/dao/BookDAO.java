@@ -54,7 +54,7 @@ public class BookDAO extends DAO<Book>{
     }
 
     public Person getPersonBorrowed(int personID) {
-        return jdbcTemplate.query("SELECT * FROM person Join borrowed_books ON person.id=borrowed_books.person_id Where person_id=?",
+        return jdbcTemplate.query("SELECT * FROM person Join borrowed_books ON person.id=borrowed_books.person_id Where borrowed_books.book_id=?",
                 new Object[]{personID}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 }
