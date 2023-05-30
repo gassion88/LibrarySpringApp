@@ -1,6 +1,8 @@
 package org.gassion.LibrarySpringApp.dao;
 
 import org.gassion.LibrarySpringApp.model.Book;
+import org.gassion.LibrarySpringApp.model.BorrowedBook;
+import org.gassion.LibrarySpringApp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -41,5 +43,18 @@ public class BookDAO extends DAO<Book>{
     @Override
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
+    }
+
+    public void addBookToBorrowed(int personID , int bookID) {
+        jdbcTemplate.update("INSERT INTO borrowed_books(person_id, book_id) VALUES ( ?, ?)", bookID, personID);
+    }
+
+    public void deleteBook(int id) {
+        jdbcTemplate.update("DELETE FROM borrowed_books WHERE book_id=?", id);
+    }
+
+    public Person getPersonBorrowed(int personID) {
+        return jdbcTemplate.query("SELECT * FROM person Join borrowed_books ON person.id=borrowed_books.person_id Where person_id=?",
+                new Object[]{personID}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
     }
 }

@@ -43,6 +43,7 @@ public class PersonController {
     @GetMapping("/{id}")
     public String getPersonFromID(@PathVariable("id") int id, Model model) {
         model.addAttribute("person", personDAO.getFromID(id));
+        model.addAttribute("books", personDAO.getAllBorrowedBook(id));
         return "person/person";
     }
 

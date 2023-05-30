@@ -9,6 +9,17 @@
 <p th:text="${'Name : ' + person.getName() + ', year : ' + person.getYearsOfBirth()}">VALUE</p>
 <p th:text="${'Phone number : ' + person.getPhoneNumber()}">VALUE</p>
 
+<td>
+    <span th:if="${books.isEmpty()}">Not found borrowed book</span>
+    <span th:else>
+        <p>Borrowed books</p>
+        <div th:each="book : ${books}">
+            <a th:href="@{/book/{id}(id=${book.getId()})}"
+            th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getPublicationDate()}">book</a>
+        </div>
+    </span>
+</td>
+<br/>
 <a th:href="@{/person/{id}/edit(id=${person.getId()})}">Edit</a>
 
 <form th:method="DELETE" th:action="@{/person/{id}(id=${person.getId()})}">

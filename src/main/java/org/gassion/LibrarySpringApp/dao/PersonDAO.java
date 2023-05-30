@@ -1,5 +1,6 @@
 package org.gassion.LibrarySpringApp.dao;
 
+import org.gassion.LibrarySpringApp.model.Book;
 import org.gassion.LibrarySpringApp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -41,5 +42,10 @@ public class PersonDAO extends DAO<Person> {
     @Override
     public void delete(int id) {
         jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
+    }
+
+    public List<Book> getAllBorrowedBook(int personID) {
+        return jdbcTemplate.query("SELECT * FROM book Join borrowed_books ON book.id=borrowed_books.book_id Where borrowed_books.person_id=?",
+                new Object[]{personID}, new BeanPropertyRowMapper<>(Book.class));
     }
 }
