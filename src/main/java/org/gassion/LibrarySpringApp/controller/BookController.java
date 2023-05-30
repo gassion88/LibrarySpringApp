@@ -5,10 +5,7 @@ import org.gassion.LibrarySpringApp.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("book")
@@ -36,5 +33,12 @@ public class BookController {
     public String addNewBook(@ModelAttribute("newBook") Book newBook) {
         bookDAO.add(newBook);
         return "redirect:/book";
+    }
+
+    @GetMapping("/{id}")
+    public String viewBook(@PathVariable("id") int id, Model model) {
+        Book book = bookDAO.getFromID(id);
+        model.addAttribute("book", book);
+        return "book/book";
     }
 }
