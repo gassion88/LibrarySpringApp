@@ -49,7 +49,7 @@ public class BookDAO extends DAO<Book>{
         jdbcTemplate.update("INSERT INTO borrowed_books(person_id, book_id) VALUES ( ?, ?)", bookID, personID);
     }
 
-    public void deleteBook(int id) {
+    public void deleteBookInBorrowed(int id) {
         jdbcTemplate.update("DELETE FROM borrowed_books WHERE book_id=?", id);
     }
 

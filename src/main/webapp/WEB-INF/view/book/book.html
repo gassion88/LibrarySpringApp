@@ -15,6 +15,10 @@
         <p>Person</p>
         <a th:href="@{/person/{id}(id=${person.getId()})}"
         th:text="${person.getName()}">user</a>
+
+        <form th:method="DELETE" th:action="@{/book/{id}/free(id=${book.getId()})}">
+            <input type="submit" value="Free book"/>
+        </form>
     </span>
 </td>
 <br/>
