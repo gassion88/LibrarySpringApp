@@ -25,19 +25,19 @@ public class PersonController {
     @GetMapping()
     public String allPerson(Model model){
         List<Person> personList =  personDAO.getAll();
-        model.addAttribute("person", personList);
+        model.addAttribute("persons", personList);
         return "person/all_person";
     }
 
     @GetMapping("/new")
     public String newPerson(Model model) {
         Person person = new Person();
-        model.addAttribute("newPerson", person);
+        model.addAttribute("person", person);
         return "person/new";
     }
 
     @PostMapping()
-    public String addPerson(@ModelAttribute("newPerson") Person person) {
+    public String addPerson(@ModelAttribute("person") Person person) {
         personDAO.add(person);
         return "redirect:/person";
     }
