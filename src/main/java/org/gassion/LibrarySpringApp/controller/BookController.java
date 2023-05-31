@@ -1,6 +1,7 @@
 package org.gassion.LibrarySpringApp.controller;
 
 import org.gassion.LibrarySpringApp.dao.BookDAO;
+import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Book;
 import org.gassion.LibrarySpringApp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("book")
 public class BookController {
+    private final PersonDAO personDAO;
     private final BookDAO bookDAO;
 
     @Autowired
-    public BookController(BookDAO bookDAO) {
+    public BookController(PersonDAO personDAO, BookDAO bookDAO) {
+        this.personDAO = personDAO;
         this.bookDAO = bookDAO;
     }
 
@@ -40,7 +43,13 @@ public class BookController {
     public String viewBook(@PathVariable("id") int id, Model model) {
         Person person = bookDAO.getPersonBorrowed(id);
         model.addAttribute("book", bookDAO.getFromID(id));
-        model.addAttribute("person", bookDAO.getPersonBorrowed(id));
+        model.addAttribute("person", person);
+
+        if (person == null){
+            model.addAttribute("allPerson", personDAO.getAll());
+            model.addAttribute("selectedPerson", null);
+        }
+
         return "book/book";
     }
 
@@ -69,4 +78,5 @@ public class BookController {
         return "redirect:/book/" + bookID;
 
     }
+
 }

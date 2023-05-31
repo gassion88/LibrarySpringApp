@@ -10,7 +10,16 @@
 <p th:text="${'Publication date : ' + book.getPublicationDate()}">VALUE</p>
 
 <td>
-    <span th:if="${person == null}">this book is free now</span>
+    <span th:if="${person == null}">
+        <p>this book is free now</p>
+        <select th:field="${selectedPerson}">
+            <option th:each="people : ${allPerson}" th:value="${people.id}">
+                 <a th:href="@{/person/{id}(id=${people.getId()})}" th:text="${people.getName()}">
+                     user
+                 </a>
+            </option>
+        </select>
+    </span>
     <span th:else>
         <p>Person</p>
         <a th:href="@{/person/{id}(id=${person.getId()})}"
