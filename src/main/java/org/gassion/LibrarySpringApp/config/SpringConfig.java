@@ -1,12 +1,12 @@
 package org.gassion.LibrarySpringApp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -24,19 +24,13 @@ import javax.sql.DataSource;
 @EnableWebMvc
 public class SpringConfig implements WebMvcConfigurer {
 
-    @Value("${db.url}")
-    private static String DB_URL;
-    @Value("${db.driver_name}")
-    private static String DB_Driver_Name;
-    @Value("${db.user_name}")
-    private static String DB_USER_NAME;
-    @Value("${db.password}")
-    private static String DB_PASSWORD;
+    private final Environment environment;
 
     private final ApplicationContext applicationContext;
 
     @Autowired
-    public SpringConfig(ApplicationContext applicationContext) {
+    public SpringConfig(Environment environment, ApplicationContext applicationContext) {
+        this.environment = environment;
         this.applicationContext = applicationContext;
     }
 
@@ -46,6 +40,7 @@ public class SpringConfig implements WebMvcConfigurer {
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/view/");
         templateResolver.setSuffix(".html");
+        templateResolver.setCharacterEncoding("UTF-8");
         return templateResolver;
     }
 
@@ -68,10 +63,10 @@ public class SpringConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/library_db");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("root");
+        dataSource.setDriverClassName(environment.getProperty("db.driver_name"));
+        dataSource.setUrl(environment.getProperty("db.url"));
+        dataSource.setUsername(environment.getProperty("db.user_name"));
+        dataSource.setPassword(environment.getProperty("db.password"));
 
         return dataSource;
     }
