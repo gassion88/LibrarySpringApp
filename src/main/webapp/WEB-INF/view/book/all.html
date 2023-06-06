@@ -12,8 +12,8 @@
 
 <section class="all_book">
     <div class="container">
-        <div class="row">
-            <div class="col-4" th:each="book : ${books}" >
+        <div class="row row-cols-4">
+            <div th:each="book : ${books}" >
                 <div  class="card" style="width: 18rem;">
                     <img src="/static/img/malenkiy-princ.jpg" class="card-img-top" alt="...">
                     <div class="card-body">
