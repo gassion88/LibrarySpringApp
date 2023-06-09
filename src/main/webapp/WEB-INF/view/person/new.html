@@ -15,8 +15,8 @@
   <div style="color:red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Age Error</div>
   <br/>
   <label for="yearOfBrith">Year of brith: </label>
-  <input type="number" th:field="*{yearOfBrith}" id="yearOfBrith"/>
-  <div style="color:red" th:if="${#fields.hasErrors('yearOfBrith')}" th:errors="*{yearOfBrith}">Email Error</div>
+  <input type="number" th:field="*{yearsOfBirth}" id="yearOfBrith"/>
+  <div style="color:red" th:if="${#fields.hasErrors('yearsOfBirth')}" th:errors="*{yearsOfBirth}">Email Error</div>
   <br/>
   <input type="submit" value="Create!"/>
 </form>
