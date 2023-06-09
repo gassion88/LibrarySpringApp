@@ -47,7 +47,7 @@ public class BookController {
 
         if (person == null){
             model.addAttribute("allPerson", personDAO.getAll());
-            model.addAttribute("selectedPerson", 0);
+            model.addAttribute("selectedPerson", new Person());
         }
 
         return "book/book";
@@ -76,6 +76,11 @@ public class BookController {
     public String freeBook(@PathVariable("id") int bookID) {
         bookDAO.deleteBookInBorrowed(bookID);
         return "redirect:/book/" + bookID;
+    }
 
+    @PostMapping("/{id}/borrow")
+    public String borrowBook(@PathVariable("id") int bookID, @ModelAttribute("selectedPerson") Person person) {
+        bookDAO.addBookToBorrowed(person.getId(), bookID);
+        return "redirect:/book/" + bookID;
     }
 }

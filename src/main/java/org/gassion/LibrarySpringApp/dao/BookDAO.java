@@ -46,7 +46,7 @@ public class BookDAO extends DAO<Book>{
     }
 
     public void addBookToBorrowed(int personID , int bookID) {
-        jdbcTemplate.update("INSERT INTO borrowed_books(person_id, book_id) VALUES ( ?, ?)", bookID, personID);
+        jdbcTemplate.update("INSERT INTO borrowed_books(person_id, book_id) VALUES ( ?, ?)",  personID, bookID);
     }
 
     public void deleteBookInBorrowed(int id) {
