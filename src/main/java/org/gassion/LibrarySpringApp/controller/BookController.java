@@ -1,5 +1,6 @@
 package org.gassion.LibrarySpringApp.controller;
 
+import jakarta.validation.Valid;
 import org.gassion.LibrarySpringApp.dao.BookDAO;
 import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Book;
@@ -7,6 +8,7 @@ import org.gassion.LibrarySpringApp.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -34,7 +36,12 @@ public class BookController {
     }
 
     @PostMapping
-    public String addNewBook(@ModelAttribute("newBook") Book newBook) {
+    public String addNewBook(@ModelAttribute("newBook") @Valid Book newBook, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "book/new";
+        }
+
         bookDAO.add(newBook);
         return "redirect:/book";
     }
