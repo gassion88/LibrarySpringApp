@@ -1,23 +1,28 @@
 package org.gassion.LibrarySpringApp.controller;
 
+import jakarta.validation.Valid;
 import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Person;
+import org.gassion.LibrarySpringApp.util.validation.PersonValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("person")
 public class PersonController {
     private final PersonDAO personDAO;
 
+    private final PersonValidate personValidate;
+
     @Autowired
-    public PersonController(PersonDAO personDAO) {
+    public PersonController(PersonDAO personDAO, PersonValidate personValidate) {
         this.personDAO = personDAO;
+        this.personValidate = personValidate;
     }
 
     @GetMapping()
@@ -35,7 +40,14 @@ public class PersonController {
     }
 
     @PostMapping()
-    public String addNewPerson(@ModelAttribute("person") Person person) {
+    public String addNewPerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
+
+        personValidate.validate(person, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "person/new";
+        }
+
         personDAO.add(person);
         return "redirect:/person";
     }

@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class PersonDAO extends DAO<Person> {
@@ -47,5 +48,10 @@ public class PersonDAO extends DAO<Person> {
     public List<Book> getAllBorrowedBook(int personID) {
         return jdbcTemplate.query("SELECT * FROM book Join borrowed_books ON book.id=borrowed_books.book_id Where borrowed_books.person_id=?",
                 new Object[]{personID}, new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public Optional<Person> getFromNumber(String phoneNumber) {
+        return jdbcTemplate.query("SELECT * FROM Person WHERE phone_number=?", new Object[]{phoneNumber},
+                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
     }
 }
