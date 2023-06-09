@@ -9,8 +9,17 @@
 <p th:text="${'Name : ' + book.getName() + ', author : ' + book.getAuthor()}">VALUE</p>
 <p th:text="${'Publication date : ' + book.getPublicationDate()}">VALUE</p>
 
-<td>
-</td>
+<br/>
+    <div th:if="${person == null}">
+        <p>Книга свободна</p>
+    </div>
+    <div th:unless="${person == null}">
+        <form th:method="DELETE" th:action="@{/book/{id}/free(id=${book.getId()})}">
+            <p>Книга занята</p>
+            <p th:text="${person.getName()}">VALUE</p>
+            <input type="submit" value="Освободить"/>
+        </form>
+    </div>
 <br/>
 
 <a th:href="@{/book/{id}/edit(id=${book.getId()})}">Edit</a>

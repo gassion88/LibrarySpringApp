@@ -47,7 +47,7 @@ public class BookController {
 
         if (person == null){
             model.addAttribute("allPerson", personDAO.getAll());
-            model.addAttribute("selectedPerson", null);
+            model.addAttribute("selectedPerson", 0);
         }
 
         return "book/book";
@@ -78,5 +78,4 @@ public class BookController {
         return "redirect:/book/" + bookID;
 
     }
-
 }
