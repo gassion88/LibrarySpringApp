@@ -1,28 +1,35 @@
 package org.gassion.LibrarySpringApp.model;
 
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.web.bind.annotation.PatchMapping;
 
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.NotEmpty;
+
+
+@Entity
+@Table(name = "person")
 public class Person {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters")
+    @Column(name = "name")
     private String name;
 
     @NotEmpty(message = "Phone number should not be empty")
+    @Column(name = "phone_number")
     private String phoneNumber;
 
     @Min(value = 0, message = "Age should be greater than 0")
+    @Column(name = "years_of_birth")
     private int yearsOfBirth;
 
-    public Person(int id, String name, String phoneNumber, int yearsOfBirth) {
-        this.id = id;
+    public Person(String name, String phoneNumber, int yearsOfBirth) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.yearsOfBirth = yearsOfBirth;

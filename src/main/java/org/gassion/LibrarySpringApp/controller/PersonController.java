@@ -1,6 +1,6 @@
 package org.gassion.LibrarySpringApp.controller;
 
-import jakarta.validation.Valid;
+
 import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Person;
 import org.gassion.LibrarySpringApp.util.validation.PersonValidate;
@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Controller

@@ -2,56 +2,61 @@ package org.gassion.LibrarySpringApp.dao;
 
 import org.gassion.LibrarySpringApp.model.Book;
 import org.gassion.LibrarySpringApp.model.Person;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class PersonDAO extends DAO<Person> {
-    private final JdbcTemplate jdbcTemplate;
+
+    private final SessionFactory sessionFactory;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public PersonDAO(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public Person getFromID(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE id=?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+        return null;
     }
 
     @Override
+    @Transactional
     public List<Person> getAll() {
-        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class));
+        Session session = sessionFactory.getCurrentSession();
+
+        List<Person> person = session.createQuery("from Person").getResultList();
+
+        return person;
     }
 
     @Override
     public void add(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(name, phone_number, years_of_birth) VALUES (?, ?, ?)", person.getName(), person.getPhoneNumber(), person.getYearsOfBirth());
+
     }
 
     @Override
     public void update(int id, Person person) {
-        jdbcTemplate.update("UPDATE Person SET name=?, phone_number=?, years_of_birth=? WHERE id=?", person.getName(), person.getPhoneNumber(), person.getYearsOfBirth(), id);
+
     }
 
     @Override
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Person WHERE id=?", id);
+
+
     }
 
     public List<Book> getAllBorrowedBook(int personID) {
-        return jdbcTemplate.query("SELECT * FROM book Join borrowed_books ON book.id=borrowed_books.book_id Where borrowed_books.person_id=?",
-                new Object[]{personID}, new BeanPropertyRowMapper<>(Book.class));
+        return null;
     }
 
     public Optional<Person> getFromNumber(String phoneNumber) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE phone_number=?", new Object[]{phoneNumber},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+        return Optional.empty();
     }
 }

@@ -1,6 +1,6 @@
 package org.gassion.LibrarySpringApp.controller;
 
-import jakarta.validation.Valid;
+
 import org.gassion.LibrarySpringApp.dao.BookDAO;
 import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Book;
@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("book")
