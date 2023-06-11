@@ -1,5 +1,6 @@
 package org.gassion.LibrarySpringApp.dao;
 
+import jakarta.persistence.Query;
 import org.gassion.LibrarySpringApp.model.Book;
 import org.gassion.LibrarySpringApp.model.Person;
 import org.hibernate.Session;
@@ -22,41 +23,59 @@ public class PersonDAO extends DAO<Person> {
     }
 
     @Override
+    @Transactional
     public Person getFromID(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Person.class, id);
     }
 
     @Override
     @Transactional
     public List<Person> getAll() {
         Session session = sessionFactory.getCurrentSession();
-
-        List<Person> person = session.createQuery("select  p from Person p", Person.class).getResultList();
-
-        return person;
+        return session.createQuery("select  p from Person p", Person.class).getResultList();
     }
 
     @Override
+    @Transactional
     public void add(Person person) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(person);
     }
 
     @Override
+    @Transactional
     public void update(int id, Person person) {
+        Session session = sessionFactory.getCurrentSession();
 
+        Person updatedPerson = session.get(Person.class, id);
+        updatedPerson.setName(person.getName());
+        updatedPerson.setPhoneNumber(person.getPhoneNumber());
+        updatedPerson.setYearsOfBirth(person.getYearsOfBirth());
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
+        Session session = sessionFactory.getCurrentSession();
 
-
+        Person person = session.get(Person.class, id);
+        session.remove(person);
     }
 
+    @Transactional
     public List<Book> getAllBorrowedBook(int personID) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.createQuery("select b from Book b", Book.class).getResultList();
     }
 
+    @Transactional
     public Optional<Person> getFromNumber(String phoneNumber) {
-        return Optional.empty();
+        Session session = sessionFactory.getCurrentSession();
+
+        Query query = session.createQuery("select b from Person b where b.phoneNumber=:phoneNumber", Person.class);
+        query.setParameter("phoneNumber", phoneNumber);
+
+        return query.getResultList().stream().findAny();
     }
 }

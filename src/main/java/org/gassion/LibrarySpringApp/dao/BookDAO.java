@@ -21,8 +21,10 @@ public class BookDAO extends DAO<Book>{
     }
 
     @Override
+    @Transactional
     public Book getFromID(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        return session.get(Book.class, id);
     }
 
     @Override
@@ -30,35 +32,51 @@ public class BookDAO extends DAO<Book>{
     public List<Book> getAll() {
         Session session = sessionFactory.getCurrentSession();
 
-        List<Book> books = session.createQuery("select b from Book b", Book.class).getResultList();
-
-        return books;
+        return session.createQuery("select b from Book b", Book.class).getResultList();
     }
 
     @Override
+    @Transactional
     public void add(Book book) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.persist(book);
     }
 
     @Override
+    @Transactional
     public void update(int id, Book book) {
+        Session session = sessionFactory.getCurrentSession();
 
+        Book updatedBook = session.get(Book.class, id);
+        updatedBook.setName(book.getName());
+        updatedBook.setAuthor(book.getAuthor());
+        updatedBook.setPublicationDate(book.getPublicationDate());
     }
 
     @Override
+    @Transactional
     public void delete(int id) {
+        Session session = sessionFactory.getCurrentSession();
 
+        Person person = session.get(Person.class, id);
+        session.remove(person);
     }
 
+    @Transactional
     public void addBookToBorrowed(int personID , int bookID) {
-
+        Session session = sessionFactory.getCurrentSession();
+        
     }
 
+    @Transactional
     public void deleteBookInBorrowed(int id) {
+        Session session = sessionFactory.getCurrentSession();
 
     }
 
+    @Transactional
     public Person getPersonBorrowed(int personID) {
+        Session session = sessionFactory.getCurrentSession();
         return null;
     }
 }
