@@ -31,7 +31,7 @@ public class PersonDAO extends DAO<Person> {
     public List<Person> getAll() {
         Session session = sessionFactory.getCurrentSession();
 
-        List<Person> person = session.createQuery("from Person").getResultList();
+        List<Person> person = session.createQuery("select  p from Person p", Person.class).getResultList();
 
         return person;
     }
