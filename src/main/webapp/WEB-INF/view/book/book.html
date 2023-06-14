@@ -10,7 +10,7 @@
 <p th:text="${'Publication date : ' + book.getPublicationDate()}">VALUE</p>
 
 <br/>
-    <div th:if="${person == null}">
+    <div th:if="${book.getBorrowedPerson() == null}">
         <form th:method="POST" th:action="@{/book/{id}/borrow(id=${book.getId()})}">
             <p>Книга свободна</p>
 
@@ -24,10 +24,10 @@
         </form>
     </div>
 
-    <div th:unless="${person == null}">
+    <div th:unless="${book.getBorrowedPerson() == null}">
         <form th:method="DELETE" th:action="@{/book/{id}/free(id=${book.getId()})}">
             <p>Книга занята</p>
-            <p th:text="${person.getName()}">VALUE</p>
+            <p th:text="${book.getBorrowedPerson().getName()}">VALUE</p>
             <input type="submit" value="Освободить"/>
         </form>
     </div>

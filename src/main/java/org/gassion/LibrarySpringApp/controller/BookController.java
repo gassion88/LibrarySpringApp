@@ -84,6 +84,7 @@ public class BookController {
     public String freeBook(@PathVariable("id") int bookID) {
         Book book = bookService.findOne(bookID);
         book.setBorrowedPerson(null);
+        bookService.save(book);
 
         return "redirect:/book/" + bookID;
     }
@@ -92,6 +93,7 @@ public class BookController {
     public String borrowBook(@PathVariable("id") int bookID, @ModelAttribute("selectedPerson") Person person) {
         Book book = bookService.findOne(bookID);
         book.setBorrowedPerson(person);
+        bookService.save(book);
 
         return "redirect:/book/" + bookID;
     }
