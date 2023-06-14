@@ -32,7 +32,7 @@ public class Person {
     @Column(name = "years_of_birth")
     private int yearsOfBirth;
 
-    @OneToMany(mappedBy = "borrowedPerson")
+    @OneToMany(mappedBy = "borrowedPerson", fetch = FetchType.EAGER)
     private List<Book> books;
 
     public Person(String name, String phoneNumber, int yearsOfBirth) {

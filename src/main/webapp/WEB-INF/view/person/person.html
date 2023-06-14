@@ -14,10 +14,10 @@
 <p th:text="${'Phone number : ' + person.getPhoneNumber()}">VALUE</p>
 
 <td>
-    <span th:if="${books.isEmpty()}">Not found borrowed book</span>
-    <span th:unless="${books.isEmpty()}">
+    <span th:if="${person.getBooks().isEmpty()}">Not found borrowed book</span>
+    <span th:unless="${person.getBooks().isEmpty()}">
         <p>Borrowed books</p>
-        <div th:each="book : ${books}">
+        <div th:each="book : ${person.getBooks()}">
             <a th:href="@{/book/{id}(id=${book.getId()})}"
             th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getPublicationDate()}">book</a>
         </div>

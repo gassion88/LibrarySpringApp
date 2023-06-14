@@ -3,6 +3,7 @@ package org.gassion.LibrarySpringApp.controller;
 
 import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Person;
+import org.gassion.LibrarySpringApp.service.PersonService;
 import org.gassion.LibrarySpringApp.util.validation.PersonValidate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,19 +17,19 @@ import java.util.List;
 @Controller
 @RequestMapping("person")
 public class PersonController {
-    private final PersonDAO personDAO;
+    private final PersonService personService;
 
     private final PersonValidate personValidate;
 
     @Autowired
-    public PersonController(PersonDAO personDAO, PersonValidate personValidate) {
-        this.personDAO = personDAO;
+    public PersonController(PersonService personService, PersonValidate personValidate) {
+        this.personService = personService;
         this.personValidate = personValidate;
     }
 
     @GetMapping()
     public String getAllPerson(Model model){
-        List<Person> personList =  personDAO.getAll();
+        List<Person> personList =  personService.findAll();
         model.addAttribute("persons", personList);
         return "person/all_person";
     }
@@ -49,32 +50,31 @@ public class PersonController {
             return "person/new";
         }
 
-        personDAO.add(person);
+        personService.save(person);
         return "redirect:/person";
     }
 
     @GetMapping("/{id}")
     public String getPersonFromID(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.getFromID(id));
-        model.addAttribute("books", personDAO.getAllBorrowedBook(id));
+        model.addAttribute("person", personService.findOne(id));
         return "person/person";
     }
 
     @GetMapping("/{id}/edit")
     public String updatePersonView(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDAO.getFromID(id));
+        model.addAttribute("person", personService.findOne(id));
         return "person/edit";
     }
 
     @PatchMapping("/{id}")
     public String updatePerson(@ModelAttribute("person") Person person, @PathVariable int id) {
-        personDAO.update(id, person);
+        personService.update(id, person);
         return "redirect:/person";
     }
 
     @DeleteMapping("/{id}")
     public String deletePerson(@PathVariable("id") int id) {
-        personDAO.delete(id);
+        personService.delete(id);
         return "redirect:/person";
     }
 }

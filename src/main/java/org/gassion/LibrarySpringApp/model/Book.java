@@ -26,7 +26,7 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "borrowed_person", referencedColumnName = "id")
     private Person borrowedPerson;
 
