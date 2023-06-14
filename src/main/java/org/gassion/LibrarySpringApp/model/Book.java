@@ -26,4 +26,8 @@ public class Book {
     @NotEmpty(message = "Author must be empty")
     @Column(name = "author")
     private String author;
+
+    @OneToOne
+    @JoinColumn(name = "borrowed_person", referencedColumnName = "id")
+    private Person borrowedPerson;
 }

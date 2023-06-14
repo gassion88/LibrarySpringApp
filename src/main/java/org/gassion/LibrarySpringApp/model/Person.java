@@ -29,6 +29,9 @@ public class Person {
     @Column(name = "years_of_birth")
     private int yearsOfBirth;
 
+    @OneToOne(mappedBy = "borrowedPerson")
+    private Book personBook;
+
     public Person(String name, String phoneNumber, int yearsOfBirth) {
         this.name = name;
         this.phoneNumber = phoneNumber;
