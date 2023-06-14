@@ -50,7 +50,7 @@ public class BookController {
 
     @GetMapping("/{id}")
     public String viewBook(@PathVariable("id") int id, Model model) {
-        Person person = bookDAO.getPersonBorrowed(id);
+        Person person = bookDAO.getPersonIfBorrowed(id);
         model.addAttribute("book", bookDAO.getFromID(id));
         model.addAttribute("person", person);
 

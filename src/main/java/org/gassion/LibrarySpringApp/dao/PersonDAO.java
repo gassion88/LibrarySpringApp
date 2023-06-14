@@ -66,7 +66,10 @@ public class PersonDAO extends DAO<Person> {
     @Transactional
     public List<Book> getAllBorrowedBook(int personID) {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select b from Book b", Book.class).getResultList();
+
+        Person person = session.get(Person.class, personID);
+        System.out.println(person.getBooks());
+        return person.getBooks();
     }
 
     @Transactional

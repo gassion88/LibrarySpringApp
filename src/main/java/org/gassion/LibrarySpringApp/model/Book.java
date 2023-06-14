@@ -5,7 +5,6 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Data
 @Entity
 @Table(name = "Book")
 public class Book {
@@ -27,7 +26,57 @@ public class Book {
     @Column(name = "author")
     private String author;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "borrowed_person", referencedColumnName = "id")
     private Person borrowedPerson;
+
+    public Book() {
+    }
+
+    public Book(String name, int publicationDate, String author, Person borrowedPerson) {
+        this.name = name;
+        this.publicationDate = publicationDate;
+        this.author = author;
+        this.borrowedPerson = borrowedPerson;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPublicationDate() {
+        return publicationDate;
+    }
+
+    public void setPublicationDate(int publicationDate) {
+        this.publicationDate = publicationDate;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Person getBorrowedPerson() {
+        return borrowedPerson;
+    }
+
+    public void setBorrowedPerson(Person borrowedPerson) {
+        this.borrowedPerson = borrowedPerson;
+    }
 }

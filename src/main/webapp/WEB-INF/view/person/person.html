@@ -15,7 +15,7 @@
 
 <td>
     <span th:if="${books.isEmpty()}">Not found borrowed book</span>
-    <span th:else>
+    <span th:unless="${books.isEmpty()}">
         <p>Borrowed books</p>
         <div th:each="book : ${books}">
             <a th:href="@{/book/{id}(id=${book.getId()})}"

@@ -66,17 +66,24 @@ public class BookDAO extends DAO<Book>{
     public void addBookToBorrowed(int personID , int bookID) {
         Session session = sessionFactory.getCurrentSession();
 
+        Book book = session.get(Book.class, bookID);
+        Person person = session.get(Person.class, personID);
+        book.setBorrowedPerson(person);
     }
 
     @Transactional
-    public void deleteBookInBorrowed(int id) {
+    public void deleteBookInBorrowed(int bookID) {
         Session session = sessionFactory.getCurrentSession();
 
+        Book book = session.get(Book.class, bookID);
+        book.setBorrowedPerson(null);
     }
 
     @Transactional
-    public Person getPersonBorrowed(int personID) {
+    public Person getPersonIfBorrowed(int bookID) {
         Session session = sessionFactory.getCurrentSession();
-        return null;
+
+        Book book = session.get(Book.class, bookID);
+        return book.getBorrowedPerson();
     }
 }
