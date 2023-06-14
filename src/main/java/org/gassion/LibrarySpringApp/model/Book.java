@@ -79,4 +79,15 @@ public class Book {
     public void setBorrowedPerson(Person borrowedPerson) {
         this.borrowedPerson = borrowedPerson;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", publicationDate=" + publicationDate +
+                ", author='" + author + '\'' +
+                ", borrowedPerson=" + borrowedPerson +
+                '}';
+    }
 }
