@@ -25,7 +25,7 @@ public class PersonValidate implements Validator {
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
 
-        if (personService.findByPhoneNumber(person.getPhoneNumber()) == null) {
+        if (personService.findByPhoneNumber(person.getPhoneNumber()) != null) {
             errors.rejectValue("phoneNumber", "", "This phone number is already in use");
         }
     }
