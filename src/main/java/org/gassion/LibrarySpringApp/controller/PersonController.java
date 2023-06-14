@@ -1,7 +1,6 @@
 package org.gassion.LibrarySpringApp.controller;
 
 
-import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Person;
 import org.gassion.LibrarySpringApp.service.PersonService;
 import org.gassion.LibrarySpringApp.util.validation.PersonValidate;

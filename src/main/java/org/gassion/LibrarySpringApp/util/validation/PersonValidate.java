@@ -1,7 +1,7 @@
 package org.gassion.LibrarySpringApp.util.validation;
 
-import org.gassion.LibrarySpringApp.dao.PersonDAO;
 import org.gassion.LibrarySpringApp.model.Person;
+import org.gassion.LibrarySpringApp.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -9,11 +9,11 @@ import org.springframework.validation.Validator;
 
 @Component
 public class PersonValidate implements Validator {
-    private final PersonDAO personDAO;
+    private final PersonService personService;
 
     @Autowired
-    public PersonValidate(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonValidate(PersonService personService) {
+        this.personService = personService;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class PersonValidate implements Validator {
     public void validate(Object target, Errors errors) {
         Person person = (Person) target;
 
-        if (personDAO.getFromNumber(person.getPhoneNumber()).isPresent()) {
+        if (personService.findByPhoneNumber(person.getPhoneNumber()) == null) {
             errors.rejectValue("phoneNumber", "", "This phone number is already in use");
         }
     }

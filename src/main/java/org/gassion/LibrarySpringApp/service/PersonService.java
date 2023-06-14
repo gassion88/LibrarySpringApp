@@ -15,7 +15,7 @@ public class PersonService {
 
     private final PersonRepository personRepository;
 
-@Autowired
+    @Autowired
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
@@ -43,5 +43,10 @@ public class PersonService {
     @Transactional
     public void delete(int id) {
         personRepository.deleteById(id);
+    }
+
+    public Person findByPhoneNumber(String phoneNumber) {
+        Optional<Person> person = personRepository.findByPhoneNumber(phoneNumber);
+        return person.orElse(null);
     }
 }
