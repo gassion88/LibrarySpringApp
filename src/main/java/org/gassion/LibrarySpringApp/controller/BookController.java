@@ -26,8 +26,11 @@ public class BookController {
     }
 
     @GetMapping
-    public String getAllBooks(Model model) {
-        model.addAttribute("books", bookService.findAll());
+    public String getAllBooks(Model model, @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+                              @RequestParam(name = "books_per_page", required = false, defaultValue = "4") int booksPerPage,
+                              @RequestParam(name = "sort_by_year", required = false, defaultValue = "false") boolean sortByYear) {
+
+        model.addAttribute("books", bookService.findAll(page, booksPerPage, sortByYear));
         return "book/all";
     }
 

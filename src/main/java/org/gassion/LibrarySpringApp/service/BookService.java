@@ -1,9 +1,11 @@
 package org.gassion.LibrarySpringApp.service;
 
 import org.gassion.LibrarySpringApp.model.Book;
-import org.gassion.LibrarySpringApp.model.Person;
 import org.gassion.LibrarySpringApp.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +23,15 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<Book> findAll(int page, int booksPerPage, boolean sortByYear) {
+        Sort sort = Sort.by("name");
+
+        if (sortByYear) {
+            sort = Sort.by("publicationDate");
+        }
+
+        Pageable pageable = PageRequest.of(page, booksPerPage, sort);
+        return  bookRepository.findAll(pageable).getContent();
     }
 
     public Book findOne(int bookID) {
