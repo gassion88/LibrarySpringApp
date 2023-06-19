@@ -28,21 +28,18 @@ public class PersonController {
 
     @GetMapping()
     public String getAllPerson(Model model){
-        List<Person> personList =  personService.findAll();
-        model.addAttribute("persons", personList);
+        model.addAttribute("persons", personService.findAll());
         return "person/all_person";
     }
 
     @GetMapping("/new")
     public String addNewPersonView(Model model) {
-        Person person = new Person();
-        model.addAttribute("person", person);
+        model.addAttribute("person", new Person());
         return "person/new";
     }
 
     @PostMapping()
     public String addNewPerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult) {
-
         personValidate.validate(person, bindingResult);
 
         if (bindingResult.hasErrors()) {

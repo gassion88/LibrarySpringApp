@@ -39,7 +39,6 @@ public class BookController {
 
     @PostMapping
     public String addNewBook(@ModelAttribute("newBook") @Valid Book newBook, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             return "book/new";
         }
