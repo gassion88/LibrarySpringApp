@@ -44,6 +44,9 @@
                     <p th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.publicationDate}">book</p>
                     <div th:if="${book.getBorrowedPerson()}">
                         <p th:text="'Книга сейчас у: ' + ${book.getBorrowedPerson().getName()}">reader</p>
+                        <div th:if="${book.isExpired()}">
+                            <p>Книга просрочена</p>
+                        </div>
                     </div>
                     <div th:unless="${book.getBorrowedPerson()}">
                         <p th:text="'Книга свободна'">free</p>

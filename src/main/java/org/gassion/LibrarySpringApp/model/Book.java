@@ -5,6 +5,8 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "Book")
 public class Book {
@@ -30,14 +32,22 @@ public class Book {
     @JoinColumn(name = "borrowed_person", referencedColumnName = "id")
     private Person borrowedPerson;
 
+    @Column(name = "borrowed_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date borrowedAt;
+
+    @Transient
+    private boolean isExpired;
+
     public Book() {
     }
 
-    public Book(String name, int publicationDate, String author, Person borrowedPerson) {
+    public Book(String name, int publicationDate, String author, Person borrowedPerson, Date borrowedAt) {
         this.name = name;
         this.publicationDate = publicationDate;
         this.author = author;
         this.borrowedPerson = borrowedPerson;
+        this.borrowedAt = borrowedAt;
     }
 
     public int getId() {
@@ -78,6 +88,22 @@ public class Book {
 
     public void setBorrowedPerson(Person borrowedPerson) {
         this.borrowedPerson = borrowedPerson;
+    }
+
+    public Date getBorrowedAt() {
+        return borrowedAt;
+    }
+
+    public void setBorrowedAt(Date borrowedAt) {
+        this.borrowedAt = borrowedAt;
+    }
+
+    public boolean isExpired() {
+        if (this.borrowedAt == null) {
+            return false;
+        }
+
+        return (new Date().getTime() - borrowedAt.getTime()) / 86400000 > 10;
     }
 
     @Override

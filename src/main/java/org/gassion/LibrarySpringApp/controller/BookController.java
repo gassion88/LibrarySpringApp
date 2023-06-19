@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -97,6 +98,7 @@ public class BookController {
     public String borrowBook(@PathVariable("id") int bookID, @ModelAttribute("selectedPerson") Person person) {
         Book book = bookService.findOne(bookID);
         book.setBorrowedPerson(person);
+        book.setBorrowedAt(new Date());
         bookService.save(book);
 
         return "redirect:/book/" + bookID;
