@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("book")
 public class BookController {
@@ -98,5 +100,11 @@ public class BookController {
         bookService.save(book);
 
         return "redirect:/book/" + bookID;
+    }
+
+    @GetMapping("/search")
+    public String searchView(@ModelAttribute("startString") String startString, Model model) {
+        model.addAttribute("books", bookService.search(startString));
+        return "book/search";
     }
 }

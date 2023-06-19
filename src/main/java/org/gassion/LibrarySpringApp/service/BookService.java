@@ -54,4 +54,8 @@ public class BookService {
     public void delete(int bookID) {
         bookRepository.deleteById(bookID);
     }
+
+    public List<Book> search(String startString) {
+        return bookRepository.findByNameStartingWithIgnoreCase(startString);
+    }
 }

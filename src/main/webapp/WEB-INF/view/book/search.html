@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Search</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<section class="search_head">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-6">
+                <form th:method="GET" th:action="@{/book/search}">
+
+                    <label for="startString" class="form-label">Enter book name: </label>
+                    <input th:type="text" id="startString" th:name="startString">
+
+                    <br/>
+                    <button type="submit" class="btn btn-primary">
+                        Search
+                    </button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="search_body">
+    <div class="container">
+        <div class="row">
+            <div th:if="${startString}">
+                <div th:if="${books.isEmpty()}">
+                    <br>
+                    <p>Книг не найдено</p>
+                    <br>
+                </div>
+                <div th:each="book : ${books}">
+                    <br>
+                    <p th:text="${book.getName()} + ', ' + ${book.getAuthor()} + ', ' + ${book.publicationDate}">book</p>
+                    <div th:if="${book.getBorrowedPerson()}">
+                        <p th:text="'Книга сейчас у: ' + ${book.getBorrowedPerson().getName()}">reader</p>
+                    </div>
+                    <div th:unless="${book.getBorrowedPerson()}">
+                        <p th:text="'Книга свободна'">free</p>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
